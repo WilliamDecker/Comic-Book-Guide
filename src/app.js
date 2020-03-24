@@ -1,6 +1,5 @@
 const express = require('express');
 const routes = require('./routes/index');
-const comics = require('./comics');
 const bodyParser = require('body-parser');
 const app = express();
 

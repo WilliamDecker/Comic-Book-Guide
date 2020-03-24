@@ -24,10 +24,8 @@ exports.readPage = (comicName, page) => {
 
 	// TODO
 	// 1. Put pages into memory for use with length
-	// 2. XML will be useful
 
 	pages = [];
-	xmldata = [];
 
 	zip.on('ready', () => {
 		for (const entry of Object.values(zip.entries())) {
@@ -37,17 +35,6 @@ exports.readPage = (comicName, page) => {
 				pages.push(entry.name);
 			}
 		}
-
-		// do stuff in zip file...
-		
-		fs.writeFile('ComicInfo.xml', zip.entryDataSync('ComicInfo.xml'), 'binary', function(err) {
-			if (err) throw err;
-			fs.readFile('./ComicInfo.xml', function(err, data) {
-				// Parse the XML into JSON...
-				let json = parser.toJson(data);
-				xml = json;
-			});
-		});
 
 		// Load binary data of the page into a variable...
 		const data = zip.entryDataSync(pages[page]);
@@ -59,4 +46,24 @@ exports.readPage = (comicName, page) => {
 		// Do not forget to close the file once you're done
 		zip.close();
 	});
+};
+
+// Read XML file from zip and then parse into JSON
+exports.readXML = (comicName) => {
+	const zip = new StreamZip({
+		file: comicName,
+		storeEntries: true
+	});
+
+
+	fs.writeFile('ComicInfo.xml', zip.entryDataSync('ComicInfo.xml'), 'binary', function(err) {
+		if (err) throw err;
+		fs.readFile('./ComicInfo.xml', function(err, data) {
+			// Parse the XML into JSON...
+			let json = parser.toJson(data);
+			console.log(json);
+			return json;
+		});
+	});
+
 };
