@@ -1,0 +1,6 @@
+node_modules/
+src/ComicInfo.xml
+public/cache/page.jpg
+*.log
+variables.env
+*.cbz
