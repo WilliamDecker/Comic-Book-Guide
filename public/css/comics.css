@@ -1,0 +1,31 @@
+* {
+	font-family: "Montserrat", sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #546e7a;
+}
+
+.content {
+	display: flex;
+	justify-content: center;
+}
+
+.comicList {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	max-width: 1400px;
+}
+
+.comicCard {
+	display: flex;
+	flex-direction: column;
+	padding: 15px;
+}
+
+.comicCard img {
+	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}

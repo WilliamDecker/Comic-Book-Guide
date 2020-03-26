@@ -1,0 +1,6 @@
+extends layout
+block content
+  .comicList
+      each folder in h.comicsList
+        .comicCard
+          img(src=`/cache/${folder}.jpg` id=`${folder}` alt=`${folder}`)

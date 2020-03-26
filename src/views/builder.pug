@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  //- readFile.buildCovers('File Name')
+  //- readFile.buildCovers(h.comicsList[counter])  
+  each folder in h.comicsList
+    - readFile.buildCovers(folder) //TODO Build a proper way to load the images...disabled to prevent accidental loading.

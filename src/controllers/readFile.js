@@ -1,14 +1,16 @@
 const StreamZip = require('node-stream-zip');
+const Jimp = require('jimp');
 const fs = require('fs');
 const parser = require('xml2json');
+const h = require('../helpers');
 
 exports.nextPage = () => {
-  return pageNum += 1;
-}
+	return (pageNum += 1);
+};
 
 exports.previousPage = () => {
-  return pageNum -= 1;
-}
+	return (pageNum -= 1);
+};
 
 // The meat and potatoes, reads the page of a comic and saves it to the cache...
 exports.readPage = (comicName, page) => {
@@ -49,21 +51,51 @@ exports.readPage = (comicName, page) => {
 };
 
 // Read XML file from zip and then parse into JSON
-exports.readXML = (comicName) => {
+
+exports.buildCovers = (folderName) => {
+	// TODO: Scrub the folder name to take out special characters.  It's causing issues.
+
+	// Filter the file list because even if you can't see it there is a Thumbs.db, even with hidden files exposed...wtf?
+	const filteredFileList = h.filterList(h.fileList(folderName));
+
+	// This takes a while...I think it's being done synchronously?  Eats up a bunch of memory for large datasets.
+	// TODO: Check if the file exists, if it does, skip it.  Put an option to force a rebuild if required.
+	console.log('Building cover list...');
 	const zip = new StreamZip({
-		file: comicName,
+		file: h.comicFolder(folderName) + '\\' + filteredFileList[0],
 		storeEntries: true
 	});
 
-
-	fs.writeFile('ComicInfo.xml', zip.entryDataSync('ComicInfo.xml'), 'binary', function(err) {
-		if (err) throw err;
-		fs.readFile('./ComicInfo.xml', function(err, data) {
-			// Parse the XML into JSON...
-			let json = parser.toJson(data);
-			console.log(json);
-			return json;
-		});
+	// Handle errors
+	zip.on('error', (err) => {
+		console.error(err.message);
 	});
 
+	zip.on('ready', () => {
+		pages = [];
+
+		// I'm sure there is a way to just stream the data of the first file, but that's for another day
+		// TODO: Fix this mess.
+		for (const entry of Object.values(zip.entries())) {
+			const desc = entry.isDirectory ? 'directory' : `${entry.size} bytes`;
+			if (entry.name != 'ComicInfo.xml') {
+				// Put all the pages into an array
+				pages.push(entry.name);
+			}
+		}
+
+		// TODO: I'm sure this isn't needed, but it works for now.  Need to rewrite the above.
+		const data = zip.entryDataSync(pages[0]);
+
+		// JIMP to handle some of the file resizing
+		Jimp.read(data, (err, data) => {
+			if (err) throw err;
+			data
+				.resize(250, Jimp.AUTO) // resize
+				.quality(50)
+				.write(`../public/cache/${folderName}.jpg`); // save
+		});
+
+		zip.close();
+	});
 };

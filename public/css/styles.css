@@ -58,3 +58,20 @@ a {
 	width: 200px;
 	margin: 0 auto;
 }
+
+.comicList {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	max-width: 1300px;
+}
+
+.comicCard {
+	display: flex;
+	flex-direction: column;
+	padding: 15px;
+}
+
+.comicCard img {
+	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
