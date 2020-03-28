@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .imgbox
+    .controls
+      a.previous(href="?page=previous") &laquo; Previous
+      a.previous(href="?page=cover") Cover
+      a.previous(href="?page=next") Next &raquo;
+    img.center-fit(src=`/cache/${encodeURIComponent(book.issue)}.jpg` alt={issue})

@@ -5,12 +5,13 @@
 const fs = require('fs');
 const path = require('path');
 
-// TODO put these in env items
+counter = 0;
+pageNum = 0;
+
+exports.siteName = `Comic Book Guide`;
 exports.basePath = process.env.COMICS_DIR;
 exports.comicsList = fs.readdirSync(process.env.COMICS_DIR);
 exports.comicFolder = (folder) => process.env.COMICS_DIR + folder;
 exports.fileList = (comicFolder) => fs.readdirSync(process.env.COMICS_DIR + comicFolder);
-
 exports.filterList = (list) => list.filter(file => file.endsWith('.cbz'));
-
-exports.pageFilter = (list) => list.filter(file => file.startsWith('P00001'));
+exports.removeExtension = (string) => string.split('.').slice(0, -1).join('.');

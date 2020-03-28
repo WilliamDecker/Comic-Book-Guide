@@ -1,6 +1,7 @@
 node_modules/
 src/ComicInfo.xml
 public/cache/*
+public/comics/*
 *.log
 *.env
 *.cbz

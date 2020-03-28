@@ -1,42 +1,61 @@
 const readFile = require('./readFile');
 const path = require('path');
+const h = require('../helpers');
 
 pageNum = 0;
 requestNumber = 0;
-comic = 'fightingman.cbz';  // Public domain comic
+
+// Take this out
+comic = 'fightingman.cbz'; // Public domain comic
 index = path.join(__dirname, '../', 'index.html');
 
+// Take this out
 exports.homePage = (req, res) => {
-  readFile.readPage(comic, 0);
+	readFile.readPage(comic, 0);
 	res.sendFile(index);
 	pageNum = 0;
-	requestNumber += 1;
-	console.log('Someone hit the home ' + 'Request Number: ' + requestNumber);
 };
 
+// Take this out
 exports.nextPage = (req, res) => {
-  readFile.nextPage();
-	readFile.readPage(comic, (pageNum));
+	readFile.nextPage();
+	readFile.readPage(comic, pageNum);
 	res.sendFile(index);
-	requestNumber += 1;
-  console.log('Someone hit the next ' + 'Request Number: ' + requestNumber);
-  console.log('They are on page ' + pageNum);
 };
 
+// Take this out
 exports.previousPage = (req, res) => {
-  if (pageNum > 0) {
-    readFile.previousPage();
+	if (pageNum > 0) {
+		readFile.previousPage();
 		readFile.readPage(comic, pageNum);
 	}
 	res.sendFile(index);
-	requestNumber += 1;
-	console.log('Someone hit the previous ' + 'Request Number: ' + requestNumber);
+};
+
+exports.comics = (req, res) => {
+	res.render('comics', { title: `Comics` });
+	console.log('Someone is looking at the comics folder...');
 };
 
 exports.changeComic = (req, res) => {
-  comic = req.params.id + ".cbz";
-  console.log("Changed comic to... " + req.params.id)
-  res.redirect('/');
+	const comic = req.params.folder;
+	console.log('Someone is looking at: ' + comic);
+	res.render('comicFolder', { title: `${comic}`, comic });
+};
+
+exports.readIssue = (req, res) => {
+	let book = {};
+
+	// Pass in the data in an array, I think this is best, page is optional
+	book.comic = req.params.comic;
+	book.issue = req.params.issue;
+	book.page = req.query.page;
+
+	readFile.readComic(book);
+
+	// I don't get the previous fs.writefile done before I need it in the following?  Am I mistaken?
+	res.render('readIssue', { title: `${book.issue}`, book });
+	console.log("Someone is looking at: " + book.comic + " Issue: " + book.issue + " Page: " + book.page);
 };
 
 exports.readXML = (req, res) => {

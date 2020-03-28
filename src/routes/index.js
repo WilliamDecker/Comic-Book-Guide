@@ -1,24 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const comicController = require('../controllers/comicController');
-//const helpers = require('../helpers');
-//const readFile = require('../controllers/readFile');
+const h = require('../helpers');
 
 router.get('/', comicController.homePage);
+router.get('/xml', comicController.readXML);
+
+// This is no longer needed after cleaning up soon...
 router.get('/nextpage', comicController.nextPage);
 router.get('/previouspage', comicController.previousPage);
-router.get('/xml', comicController.readXML);
-// Something to just load in a file if I want...
-router.get('/comic/:id', comicController.changeComic);
+
+// Comic File Loaders...
+router.get('/comics/', comicController.comics);
+router.get('/comics/:folder', comicController.changeComic);
+router.get('/comics/:comic/:issue', comicController.readIssue);
+
+// Temp builder 
+// TODO build proper admin page
+router.get('/builder', (req, res) => {
+  console.log('Building cover list...');
+  res.render('builder', { title: `Builder`});
+})
 
 router.get('/folder', (req, res) => {
-  res.render('folder');
-  console.log('Someone is looking at the folder...')
+  res.redirect('/comics');
 });
-
-router.get('/builder', (req, res) => {
-  res.render('builder');  
-  console.log('Someone used the builder...');
-})
 
 module.exports = router;

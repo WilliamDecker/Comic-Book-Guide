@@ -16,8 +16,8 @@ body {
 .comicList {
 	display: flex;
 	justify-content: center;
+	max-width: 1500px;
 	flex-wrap: wrap;
-	max-width: 1400px;
 }
 
 .comicCard {
@@ -28,4 +28,25 @@ body {
 
 .comicCard img {
 	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.controls {
+	min-width: 400px;
+	display: flex;
+	justify-content: space-between;
+	z-index: 2;
+	position: fixed;
+	text-align: center;
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only screen and (max-width: 420px) {
+	.comicList {
+		flex-wrap: nowrap;
+		max-width: 420px;
+		flex-direction: column;
+	}
 }

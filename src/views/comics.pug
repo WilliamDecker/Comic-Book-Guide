@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  .comicList
+      each folder in h.comicsList
+        .comicCard
+          a(href=`./${encodeURIComponent(folder)}/` id=`${(folder)}`)
+            img(src=`/comics/${encodeURIComponent(folder)}.jpg` id=`${(folder)}` alt=`${(folder)}`)

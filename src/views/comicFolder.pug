@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  .comicList
+      each file in h.filterList(h.fileList(comic))
+        .comicCard
+          a(href=`/comics/${encodeURIComponent(comic)}/${encodeURIComponent(h.removeExtension((file)))}`)
+            img(src=`/comics/${encodeURIComponent(comic)}/${encodeURIComponent(h.removeExtension((file)))}.jpg` id=`${h.removeExtension(file)}` alt=`${h.removeExtension(file)}`)

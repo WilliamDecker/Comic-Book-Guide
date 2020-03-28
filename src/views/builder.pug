@@ -1,7 +1,13 @@
 extends layout
 
 block content
-  //- readFile.buildCovers('File Name')
-  //- readFile.buildCovers(h.comicsList[counter])  
+  //- let folderName = "100 Bullets (1999)";
+  //- readFile.buildFileCovers(folderName);
+  //- readFile.buildCovers('Folder Name')
+  //- readFile.buildCovers(folderName)
+  //- readFile.buildFileCovers(h.comicsList[h.counter+=1]);
+  
+
   each folder in h.comicsList
-    - readFile.buildCovers(folder) //TODO Build a proper way to load the images...disabled to prevent accidental loading.
+    //- readFile.buildFileCovers(folder);
+    //- readFile.buildCovers(folder) //TODO Build a proper way to load the images...disabled to prevent accidental loading.
