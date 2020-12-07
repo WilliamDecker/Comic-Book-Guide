@@ -19,6 +19,6 @@ For best use, be sure to scrape and save all metadata using ComicRack.  For exis
 
 ## Usage
 
-To start the program run `node app.js` within the /src/ folder to start the application on `port:3000`.
+To start the program run `node start` within the /src/ folder to start the application on `port:3000`.
 
 Once it's started, navigate to [http://localhost:3000](http://localhost:3000) in your web browser (or whatever machine you are hosting it on).
